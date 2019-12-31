@@ -33,11 +33,19 @@ module.exports = function(o_params){
 				repo: 'origin',
 				branch: 'master'
 			},
+			add: {
+				path: './*'
+			},
+			commit: {
+				message: "Committed by cron-git from "+ require('os').hostname()
+			},
 			pull_params: {}
 		}
 		Object.assign(params, params_user);
 
-		git.pull(params.remote.repo, 
+		git.add(params.add.path)
+   			.commit(params.commit.message)
+   			.pull(params.remote.repo, 
 			params.remote.branch, 
 			params.pull_params,
 			function(err, update){
@@ -95,7 +103,6 @@ module.exports = function(o_params){
 
 	/* sync action */
 	var sync = function(callback, err_callback, params_pull, params_push){
-		push(params_push);
 		pull(params_pull, callback, err_callback);
 		push(params_push);
 	}
