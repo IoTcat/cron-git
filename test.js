@@ -1,3 +1,3 @@
 const crongit = require('./index.js')();
 
-crongit.sync();
+crongit.schedule("10 * * * * *", ()=>console.log('test ok!!!'));
