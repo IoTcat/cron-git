@@ -11,10 +11,10 @@ module.exports = function(o_params){
 		dir: __dirname,
 		debug: false,
 		allowNotice: true,
-		pull: (params, callback) => pull(params, callback),
+		pull: (params, callback, err_callback) => pull(params, callback, err_callback),
 		push: (params, callback) => push(params, callback),
-		sync: (callback, params_pull, params_push) => sync(callback, params_pull, params_push),
-		schedule: (time, callback, params_pull, params_push) => schedule(time, callback, params_pull, params_push)
+		sync: (callback, err_callback, params_pull, params_push) => sync(callback, err_callback, params_pull, params_push),
+		schedule: (time, callback, err_callback, params_pull, params_push) => schedule(time, callback, err_callback, params_pull, params_push)
 	}
 
 
@@ -27,7 +27,7 @@ module.exports = function(o_params){
 	const git = require('simple-git')(o.dir);
 
 	/* Git pull action */
-	var pull = function(params_user, callback){
+	var pull = function(params_user, callback, err_callback){
 		var params = {
 			remote: {
 				repo: 'origin',
@@ -37,12 +37,25 @@ module.exports = function(o_params){
 		}
 		Object.assign(params, params_user);
 
-		git.pull(params.remote.repo, 
+		git.pull(/*params.remote.repo, 
 			params.remote.branch, 
-			params.pull_params, 
-			function(){
-				if(o.allowNotice){
-					console.log(new Date() + ' - cron-git: git pull done.');
+			params.pull_params, */
+			function(err, update){
+				if(!err){
+					if(update && update.summary.changes){
+						if(o.allowNotice){
+							console.log(new Date() + ' - cron-git: git pull done::' + update.summary.changes);
+						}
+					}else{
+						if(o.allowNotice){
+							console.log(new Date() + ' - cron-git: git pull done. Nothing changed!!');
+						}
+					}
+				}else{
+					if(o.allowNotice){
+						console.log(new Date() + ' - cron-git: git pull Failure.');
+					}
+					err_callback();
 				}
    				if(callback !== undefined){
    					callback();
@@ -76,17 +89,17 @@ module.exports = function(o_params){
 	}
 
 	/* sync action */
-	var sync = function(callback, params_pull, params_push){
+	var sync = function(callback, err_callback, params_pull, params_push){
 		push(params_push);
-		pull(params_pull);
+		pull(params_pull, function(){}, err_callback);
 		push(params_push, callback);
 	}
 
 	/* cron sync */
-	var schedule = function(time, callback, params_pull, params_push){
+	var schedule = function(time, callback, err_callback, params_pull, params_push){
 		cron.scheduleJob(time, function(){
 			console.log(new Date() + ' - cron-git: Scheduled sync begin.');
-			sync(callback, params_pull, params_push);
+			sync(callback, err_callback, params_pull, params_push);
 		});
 	}
 
