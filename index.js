@@ -10,9 +10,9 @@ const git = require('simple-git')();
 */
 
 
-git.pull('origin', 'master', {'--no-rebase': null}, ()=>{console.log('pull')});
+git.pull('origin', 'master', {'--no-rebase': null}, ()=>{console.log(new Date() + ' - cron-git: git pull done.')});
 
 
 git.add('./*')
    .commit("Committed by cron-git auto")
-   .push(['-u', 'origin', 'master'], () => console.log('git push done!!'));
+   .push(['-u', 'origin', 'master'], () => console.log(new Date() + ' - cron-git: git pull done.'));
