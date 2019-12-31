@@ -18,10 +18,10 @@ git config user.email "YOUR EMAIL"
 		dir: __dirname,
 		debug: false,
 		allowNotice: true,
-		pull: (params, callback) => pull(params, callback),
+		pull: (params, callback, err_callback) => pull(params, callback, err_callback),
 		push: (params, callback) => push(params, callback),
-		sync: (callback, params_pull, params_push) => sync(callback, params_pull, params_push),
-		schedule: (time, callback, params_pull, params_push) => schedule(time, callback, params_pull, params_push)
+		sync: (callback, err_callback, params_pull, params_push) => sync(callback, err_callback, params_pull, params_push),
+		schedule: (time, callback, err_callback, params_pull, params_push) => schedule(time, callback, err_callback, params_pull, params_push)
 	}
 ```
 
@@ -31,6 +31,12 @@ git config user.email "YOUR EMAIL"
 		remote: {
 			repo: 'origin',
 			branch: 'master'
+		},
+		add: {
+			path: './*'
+		},
+		commit: {
+			message: "Committed by cron-git from "+ require('os').hostname()
 		},
 		pull_params: {}
 	}
