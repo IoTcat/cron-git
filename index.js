@@ -37,15 +37,21 @@ module.exports = function(o_params){
 		}
 		Object.assign(params, params_user);
 
-		git.pull(/*params.remote.repo, 
+		git.pull(params.remote.repo, 
 			params.remote.branch, 
-			params.pull_params, */
+			params.pull_params,
 			function(err, update){
 				if(!err){
-					if(update && update.summary.changes){
+					if(update && (update.summary.changes || update.summary.deletions || update.summary.insertions)){
 						if(o.allowNotice){
-							console.log(new Date() + ' - cron-git: git pull done::' + update.summary.changes);
+							console.log(new Date() + ' - cron-git: git pull done::');
+							console.log('---------------------------');
+							console.log(update);
+							console.log('---------------------------');
 						}
+		   				if(callback !== undefined){
+		   					callback(update);
+		   				}
 					}else{
 						if(o.allowNotice){
 							console.log(new Date() + ' - cron-git: git pull done. Nothing changed!!');
@@ -55,11 +61,10 @@ module.exports = function(o_params){
 					if(o.allowNotice){
 						console.log(new Date() + ' - cron-git: git pull Failure.');
 					}
-					err_callback();
+	   				if(err_callback !== undefined){
+	   					err_callback(err);
+	   				}
 				}
-   				if(callback !== undefined){
-   					callback();
-   				}
 			});
 	}
 
@@ -91,8 +96,8 @@ module.exports = function(o_params){
 	/* sync action */
 	var sync = function(callback, err_callback, params_pull, params_push){
 		push(params_push);
-		pull(params_pull, function(){}, err_callback);
-		push(params_push, callback);
+		pull(params_pull, callback, err_callback);
+		push(params_push);
 	}
 
 	/* cron sync */
