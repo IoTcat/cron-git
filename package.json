@@ -1,0 +1,27 @@
+{
+  "name": "cron-git",
+  "version": "1.0.0",
+  "description": "crontab git task",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IoTcat/cron-git.git"
+  },
+  "keywords": [
+    "cron",
+    "git"
+  ],
+  "author": "iotcat",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/IoTcat/cron-git/issues"
+  },
+  "homepage": "https://github.com/IoTcat/cron-git#readme",
+  "dependencies": {
+    "node-schedule": "^1.3.2",
+    "simple-git": "^1.129.0"
+  }
+}
