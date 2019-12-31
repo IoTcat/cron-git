@@ -15,4 +15,4 @@ git.pull('origin', 'master', {'--no-rebase': null});
 
 git.add('./*')
    .commit("Committed by cron-git auto")
-   .push(['-u', 'origin', 'master'], () => console.log('git push done!!'));
+   .push(['-u', 'origin', 'master'], (s) => console.log(s+'git push done!!'));
