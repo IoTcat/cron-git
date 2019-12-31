@@ -1,6 +1,17 @@
 # cron-git
 crontab git task by nodejs
 
+## preparation
+
+ - make sure Git was installed
+ - at __dir exec the following command
+ ```shell
+git config user.name "YOUR USER NAME"
+git config user.email "YOUR EMAIL"
+ ```
+ - execute ./ini.sh
+
+
 ## usage
 ```js
 	var o = {
