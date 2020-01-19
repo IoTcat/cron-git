@@ -1,6 +1,6 @@
 {
   "name": "cron-git",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "crontab git task",
   "main": "index.js",
   "scripts": {
