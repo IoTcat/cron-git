@@ -8,7 +8,7 @@ module.exports = function(o_params){
 
 	/* factory mode */
 	var o = {
-		dir: __dirname,
+		dir: process.cwd(),
 		debug: false,
 		allowNotice: true,
 		pull: (params, callback, err_callback) => pull(params, callback, err_callback),
