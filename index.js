@@ -21,6 +21,8 @@ module.exports = function(o_params){
 	/* merge params */
 	Object.assign(o, o_params);
 
+	/* log dir */
+	console.log(new Date() + ' - cron-git: At dir::' + o.dir);
 
 	/* modules import */
 	const cron = require('node-schedule');
