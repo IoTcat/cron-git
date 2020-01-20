@@ -13,8 +13,6 @@ module.exports = function(o_params){
 		allowNotice: true,
 		pull: (params, callback, err_callback) => pull(params, callback, err_callback),
 		push: (params, callback) => push(params, callback),
-		getCommitNum: (callback) => getCommitNum(callback),
-		getTodayCommits: (callback) => getTodayCommits(callback),
 		diff: (callback) => diff(callback),
 		sync: (callback, err_callback, params_pull, params_push) => sync(callback, err_callback, params_pull, params_push),
 		schedule: (time, callback, err_callback, params_pull, params_push) => schedule(time, callback, err_callback, params_pull, params_push)
