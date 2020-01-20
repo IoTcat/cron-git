@@ -13,6 +13,8 @@ module.exports = function(o_params){
 		allowNotice: true,
 		pull: (params, callback, err_callback) => pull(params, callback, err_callback),
 		push: (params, callback) => push(params, callback),
+		getCommitNum: (callback) => getCommitNum(callback),
+		getTodayCommits: (callback) => getTodayCommits(callback),
 		diff: (callback) => diff(callback),
 		sync: (callback, err_callback, params_pull, params_push) => sync(callback, err_callback, params_pull, params_push),
 		schedule: (time, callback, err_callback, params_pull, params_push) => schedule(time, callback, err_callback, params_pull, params_push)
@@ -102,6 +104,30 @@ module.exports = function(o_params){
    					callback();
    				}
    			});
+	}
+
+	/* get history commits number */
+	var getCommitNum = function(callback){
+		git.log({'--pretty': 'format:%h'}, callback);
+	}
+	
+	/* get today commits */
+	var getTodayCommits = function(callback){
+		var today = (new Date()).getFullYear() + `-` +  (new Date()).getMonth() + `-` + (new Date()).getDate();
+
+		getCommitNum(function(err, commits){
+			var today_arr = [];
+			commits.all.forEach(function(item, index, array){
+				var tdateObj = new Date(item.date);
+				var tdate = tdateObj.getFullYear() + `-` + tdateObj.getMonth() + `-` + tdateObj.getDate();
+				if(tdate == today){
+					today_arr.push(item);
+				}
+			});
+			callback(today_arr);
+		});
+
+
 	}
 
 	/* check diff */
