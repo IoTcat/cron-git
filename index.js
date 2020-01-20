@@ -130,6 +130,8 @@ module.exports = function(o_params){
 
 	}
 
+	
+
 	/* check diff */
 	var diff = function(callback){
 		git.diffSummary(callback);
