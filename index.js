@@ -13,6 +13,7 @@ module.exports = function(o_params){
 		allowNotice: true,
 		pull: (params, callback, err_callback) => pull(params, callback, err_callback),
 		push: (params, callback) => push(params, callback),
+		diff: (callback) => diff(callback),
 		sync: (callback, err_callback, params_pull, params_push) => sync(callback, err_callback, params_pull, params_push),
 		schedule: (time, callback, err_callback, params_pull, params_push) => schedule(time, callback, err_callback, params_pull, params_push)
 	}
@@ -101,6 +102,11 @@ module.exports = function(o_params){
    					callback();
    				}
    			});
+	}
+
+	/* check diff */
+	var diff = function(callback){
+		git.diffSummary(callback);
 	}
 
 	/* sync action */
